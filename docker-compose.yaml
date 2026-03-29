@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    container_name: meu-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm start
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mongo
+    container_name: meu-db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
